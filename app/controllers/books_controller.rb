@@ -1,9 +1,12 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
-
+  Books_per_page=5
   # GET /books or /books.json
   def index
-    @books = Book.all
+    @search_param=params.fetch(:q,"")
+    @page = params.fetch(:page,0).to_i
+    @books = Book.where("title LIKE ?","%"+@search_param+"%").offset(@page * Books_per_page).limit(Books_per_page) #By default SQL String limit 255 character 
+    @no_of_pages= (Book.where("title LIKE ?","%"+@search_param+"%").length / Books_per_page.to_f ).ceil
   end
 
   # GET /books/1 or /books/1.json

@@ -1,14 +1,23 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Books</h1>
+<h1 class="text-center">Books</h1>
 
 <div id="books">
   <% @books.each do |book| %>
-    <%= render book %>
-    <p>
-      <%= link_to "Show this book", book %>
-    </p>
+    <hr>
+    <div class="d-flex justify-content-between m-2">
+      <%= render book %>
+      <%= link_to "Show this book", book, class: "btn btn-outline-primary" %>
+    </div>
   <% end %>
+  <hr>
 </div>
 
-<%= link_to "New book", new_book_path %>
+<div class="">
+  <% if @no_of_pages > 0 && @page > 0 %>
+    <%= link_to "Previous Page", root_path(page: @page-1, q: @search_param), class:"btn btn-success float-start" %>
+  <% end %>
+  <% if @no_of_pages > 0 && @page < @no_of_pages-1 %>
+    <%= link_to "Next Page", root_path(page: @page+1, q: @search_param), class:"btn btn-success float-end" %>
+  <% end %>
+</div>

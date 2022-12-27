@@ -1,10 +1,11 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @book %>
+<div class="mx-5">
+  <%= render @book %>
+  <div class="d-flex">
+    <%= link_to "Edit this book", edit_book_path(@book) , class:"btn btn-outline-warning me-2" %>
+    <%= link_to "Back", :back, class:"btn btn-outline-secondary me-2" %>
 
-<div>
-  <%= link_to "Edit this book", edit_book_path(@book) %> |
-  <%= link_to "Back to books", books_path %>
-
-  <%= button_to "Destroy this book", @book, method: :delete %>
+    <%= button_to "Destroy this book", @book, method: :delete, class:"btn btn-outline-danger me-2" %>
+  </div>
 </div>
