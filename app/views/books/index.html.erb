@@ -1,23 +1,30 @@
 <p style="color: green"><%= notice %></p>
 
 <h1 class="text-center">Books</h1>
+<div>
+  <%= form_with url: root_path, method: :get, data: { turbo_frame: "books", turbo_action: "advance", controller: "form", action: "input->form#submit" } do %>
+    <%= text_field_tag "filter", nil, placeholder: "filter", class: "inline-block rounded-md border border-gray-200 outline-none px-3 py-2 w-full" %>
+  <% end %>
+</div>
 
-<div id="books">
-  <% @books.each do |book| %>
+
+<%= turbo_frame_tag "books" do %>
+  <div id="books">
+    <% @books.each do |book| %>
+      <hr>
+      <div class="d-flex justify-content-between m-2">
+        <%= render book %>
+        <%= link_to "Show this book", book, class: "btn btn-outline-primary" %>
+      </div>
+    <% end %>
     <hr>
-    <div class="d-flex justify-content-between m-2">
-      <%= render book %>
-      <%= link_to "Show this book", book, class: "btn btn-outline-primary" %>
-    </div>
-  <% end %>
-  <hr>
-</div>
-
-<div class="">
-  <% if @no_of_pages > 0 && @page > 0 %>
-    <%= link_to "Previous Page", root_path(page: @page-1, q: @search_param), class:"btn btn-success float-start" %>
-  <% end %>
-  <% if @no_of_pages > 0 && @page < @no_of_pages-1 %>
-    <%= link_to "Next Page", root_path(page: @page+1, q: @search_param), class:"btn btn-success float-end" %>
-  <% end %>
-</div>
+  </div>
+  <div class="">
+    <% if @no_of_pages > 0 && @page > 0 %>
+      <%= link_to "Previous Page", root_path(page: @page-1, filter: @search_param), data: { turbo_frame: "books", turbo_action: "advance" }, class:"btn btn-success float-start" %>
+    <% end %>
+    <% if @no_of_pages > 0 && @page < @no_of_pages-1 %>
+      <%= link_to "Next Page", root_path(page: @page+1, filter: @search_param), data: { turbo_frame: "books", turbo_action: "advance" }, class:"btn btn-success float-end" %>
+    <% end %>
+  </div>
+<% end %>

@@ -3,10 +3,11 @@ class BooksController < ApplicationController
   Books_per_page=5
   # GET /books or /books.json
   def index
-    @search_param=params.fetch(:q,"")
     @page = params.fetch(:page,0).to_i
-    @books = Book.where("title LIKE ?","%"+@search_param+"%").offset(@page * Books_per_page).limit(Books_per_page) #By default SQL String limit 255 character 
-    @no_of_pages= (Book.where("title LIKE ?","%"+@search_param+"%").length / Books_per_page.to_f ).ceil
+    @books = Book.where("title LIKE ?", "%#{params[:filter]}%").offset(@page * Books_per_page).limit(Books_per_page)
+    @no_of_pages= (Book.where("title LIKE ?", "%#{params[:filter]}%").length / Books_per_page.to_f ).ceil
+    @search_param=params.fetch(:filter,"")
+    # @books = Book.where("title LIKE ?","%"+@search_param+"%").offset(@page * Books_per_page).limit(Books_per_page) #By default SQL String limit 255 character 
   end
 
   # GET /books/1 or /books/1.json
